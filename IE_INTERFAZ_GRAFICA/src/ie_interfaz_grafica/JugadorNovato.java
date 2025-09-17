@@ -1,0 +1,28 @@
+/*
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
+ */
+package ie_interfaz_grafica;
+
+/**
+ *
+ * @author Alumno
+ */
+public class JugadorNovato extends Jugador {
+    // Constructor: llama al constructor de la clase padre (Jugador)
+    public JugadorNovato(String nombre, int dineroInicial) {
+        super(nombre, dineroInicial); // super() es el constructor de Jugador
+    }
+
+    // Implementa el método abstracto: siempre apuesta $50
+    @Override
+    public int calcularApuesta() {
+        return 50;
+    }
+
+    // Implementa el método abstracto: devuelve tipo
+    @Override
+    public String obtenerTipoJugador() {
+        return "Novato";
+    }
+}
