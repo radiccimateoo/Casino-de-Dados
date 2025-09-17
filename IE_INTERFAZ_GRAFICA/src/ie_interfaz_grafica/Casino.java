@@ -40,12 +40,19 @@ public class Casino {
         jugadores.add(jugador);
     }
 
-    public void jugar() {
-        System.out.println("\nComienza el juego!");
-        int rondas = 3;
+    public void jugar(int cantPartidas) {
+        /*
+            antes era a 3 rondas, la consingna nueva pide gaurdar las ultimas 5
+            partidas, asi que se entiende que se puede jugar la cantidad de 
+            partidas que el jugador desee (ver de poner un numero razonable)
+            le pasamos por parametro la cantidad de partidas que quiere jugar.
+            
+            ANTES: int rondas = 3;
+            AHORA: jugar(int cantPartidas)
+        */
 
-        for (int i = 1; i <= rondas; i++) {
-            System.out.println("\n=== Ronda " + i + " ===");
+        for (int i = 1; i <= cantPartidas; i++) {
+            System.out.println("\n=== Partida " + i + " ===");
             JuegoDados juego = new JuegoDados(jugadores);
             juego.jugarRonda();
 

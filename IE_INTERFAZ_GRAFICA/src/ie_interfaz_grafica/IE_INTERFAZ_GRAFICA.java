@@ -49,8 +49,14 @@ public class IE_INTERFAZ_GRAFICA {
             Jugador jugador = casino.crearJugador(nombre, tipo);
             casino.agregarJugador(jugador);
         }
-
-        casino.jugar();
+        
+        System.out.print("\n Ingrese la cantidad de partidas que quiere jugar: ");
+        int cantPartidas = scanner.nextInt();
+        scanner.nextLine();
+        
+        System.out.println("\n*************************************");
+        System.out.println("\nComienza el juego!");
+        casino.jugar(cantPartidas);
 
         scanner.close();
     }
