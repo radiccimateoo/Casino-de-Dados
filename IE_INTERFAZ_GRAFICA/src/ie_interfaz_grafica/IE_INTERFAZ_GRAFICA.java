@@ -4,6 +4,7 @@
  */
 package ie_interfaz_grafica;
 import java.util.*;
+import java.io.*;
 
 /**
  *
@@ -50,15 +51,81 @@ public class IE_INTERFAZ_GRAFICA {
             casino.agregarJugador(jugador);
         }
         
+        /*
+        aca implementamos primera mejora, se entiende que por cada partida hay x
+        cantidad de rondas, para hacerlo mas rapido establecemos como valores
+        fijos 8 partidas y 3 rondas por partida, para hacer un historial largo
+        */
+        
+        /*
         System.out.print("\n Ingrese la cantidad de partidas que quiere jugar: ");
         int cantPartidas = scanner.nextInt();
         scanner.nextLine();
+        */
         
         System.out.println("\n*************************************");
         System.out.println("\nComienza el juego!");
-        casino.jugar(cantPartidas);
+        
+        // Guardar la lista de detalles de partidas en la variable
+        List<String> detalles = casino.jugar(8);
+        
+        // Recorrer cada detalle y guardarlo en archivo historial_partidas.txt
+        for (String detalle : detalles) {
+            guardarPartida(detalle);
+        }
+        
+        //luego de que se jueguen todas las partidas vamos a mostrar el historial de las ultimas 5 partidas
+        mostrarHistorial();
 
         scanner.close();
+    }
+    
+    // Método para guardar el detalle de cada partida en un archivo txt
+    public static void guardarPartida(String detalle) {
+        StringBuilder sb = new StringBuilder();
+        sb.append(detalle).append("\n"); // cada detalle en una línea nueva
+
+        try (FileWriter writer = new FileWriter("historial_partidas.txt", true)) {
+            writer.write(sb.toString());
+        } catch (IOException e) {
+            System.out.println("Error al guardar la partida: " + e.getMessage());
+        }
+    }
+    
+    // Método para mostrar los últimos 5 registros del historial
+    public static void mostrarHistorial() {
+        String nombreArchivo = "historial_partidas.txt";
+        File archivo = new File(nombreArchivo);
+
+        if (!archivo.exists()) {
+            System.out.println("El archivo " + nombreArchivo + " no existe.");
+            return;
+        }
+
+        List<String> partidas = new ArrayList<>();
+
+        try (BufferedReader br = new BufferedReader(new FileReader(archivo))) {
+            String linea;
+            while ((linea = br.readLine()) != null) {
+                partidas.add(linea);
+            }
+        } catch (IOException e) {
+            System.out.println("Error al leer el archivo: " + e.getMessage());
+            return;
+        }
+
+        if (partidas.isEmpty()) {
+            System.out.println("No hay registros en el archivo.");
+            return;
+        }
+
+        System.out.println("\n--- Últimas 5 partidas registradas ---");
+        int total = partidas.size();
+        int limite = Math.max(0, total - 5); // calculamos hasta dónde mostrar
+
+        for (int i = total - 1; i >= limite; i--) {
+            System.out.println(partidas.get(i));
+        }
     }
     
 }

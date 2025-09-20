@@ -84,7 +84,7 @@ public class JuegoDados {
         for (Jugador ganador : ganadores) {
             ganador.ganar(premioPorJugador);
             ganador.sumarVictoria();
-            System.out.println("→ " + ganador.getNombreConTipo() + " gana $" + premioPorJugador);
+            System.out.println("-> " + ganador.getNombreConTipo() + " gana $" + premioPorJugador);
         }
 
         // Resetear re-roll para VIPs (para la próxima ronda)
