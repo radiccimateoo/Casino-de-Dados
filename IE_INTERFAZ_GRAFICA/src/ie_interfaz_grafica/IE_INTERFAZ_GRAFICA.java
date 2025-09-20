@@ -52,7 +52,7 @@ public class IE_INTERFAZ_GRAFICA {
         }
         
         /*
-        aca implementamos primera mejora, se entiende que por cada partida hay x
+        aca implementamos primera mejora (consigna 1), se entiende que por cada partida hay x
         cantidad de rondas, para hacerlo mas rapido establecemos como valores
         fijos 8 partidas y 3 rondas por partida, para hacer un historial largo
         */
@@ -141,4 +141,5 @@ public class IE_INTERFAZ_GRAFICA {
         }
     }
     
+
 }
