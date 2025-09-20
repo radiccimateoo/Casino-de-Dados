@@ -5,6 +5,7 @@ package ie_interfaz_grafica;
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 /**
  *
@@ -52,67 +53,47 @@ public class Casino {
         for (int i = 1; i <= cantPartidas; i++) {
             System.out.println("\n=== Partida " + i + " ===");
 
-            // Siempre 3 rondas fijas
+            // Inicializamos contador de rondas ganadas por jugador para esta partida
+            HashMap<Jugador, Integer> rondasGanadas = new HashMap<>();
+            for (Jugador j : jugadores) {
+                rondasGanadas.put(j, 0);
+            }
+
+            // 3 rondas fijas
             JuegoDados juego = new JuegoDados(jugadores);
             for (int r = 1; r <= 3; r++) {
                 System.out.println("\n---- Ronda " + r);
-                juego.jugarRonda();
-            }
-
-            // Mostrar estado de los jugadores después de la partida
-            System.out.println("\nEstado después de la partida " + i + ":");
-            for (Jugador j : jugadores) {
-                System.out.println(j.getNombreConTipo() + " - Dinero: $" + j.getDinero());
-            }
-
-            // Determinar ganador de la partida
-            Jugador ganador = jugadores.get(0);
-            for (Jugador j : jugadores) {
-                if (j.getDinero() > ganador.getDinero()) {
-                    ganador = j;
+                List<Jugador> ganadoresRonda = juego.jugarRonda();
+                for (Jugador g : ganadoresRonda) {
+                    rondasGanadas.put(g, rondasGanadas.get(g) + 1);
                 }
             }
 
-            // Construir el detalle con StringBuilder
+            // Determinar ganador de la partida según rondas ganadas
+            Jugador ganadorPartida = jugadores.get(0);
+            int maxRondas = rondasGanadas.get(ganadorPartida);
+            for (Jugador j : jugadores) {
+                if (rondasGanadas.get(j) > maxRondas) {
+                    ganadorPartida = j;
+                    maxRondas = rondasGanadas.get(j);
+                }
+            }
+
+            // Construir detalle
             StringBuilder detalle = new StringBuilder();
             detalle.append("PARTIDA #").append(i).append(" - Jugadores: ");
             for (int j = 0; j < jugadores.size(); j++) {
                 detalle.append(jugadores.get(j).getNombre());
-                if (j < jugadores.size() - 1) {
-                    detalle.append(", ");
-                }
+                if (j < jugadores.size() - 1) detalle.append(", ");
             }
-            //el ganador se basa en quien tiene mas plata al final de la partida
-            detalle.append(" | Ganador: ").append(ganador.getNombreConTipo());
-            detalle.append(" | Rondas: 3");
+            detalle.append(" | Ganador: ").append(ganadorPartida.getNombreConTipo());
+            detalle.append(" | Rondas ganadas: ").append(maxRondas).append(" de 3");
 
-            // Guardamos el detalle en la lista
             detalles.add(detalle.toString());
-
-            // Verificar si alguien se quedó sin dinero
-            boolean alguienSinDinero = false;
-            for (Jugador j : jugadores) {
-                if (j.getDinero() <= 0) {
-                    alguienSinDinero = true;
-                    break;
-                }
-            }
-            if (alguienSinDinero) {
-                System.out.println("\nUn jugador se quedó sin dinero. ¡Fin del juego!");
-                break;
-            }
         }
 
-        // Anunciar ganador final
-        Jugador ganadorFinal = jugadores.get(0);
-        for (Jugador j : jugadores) {
-            if (j.getDinero() > ganadorFinal.getDinero()) {
-                ganadorFinal = j;
-            }
-        }
-        System.out.println("\n¡El ganador final es " + ganadorFinal.getNombreConTipo() + " con $" + ganadorFinal.getDinero() + "!");
-
-        return detalles; // devolvemos los detalles para usarlos en main
+        return detalles;
     }
+
     
 }

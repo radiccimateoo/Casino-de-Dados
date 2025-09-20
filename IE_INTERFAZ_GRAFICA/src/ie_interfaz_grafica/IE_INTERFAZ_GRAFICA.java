@@ -82,14 +82,27 @@ public class IE_INTERFAZ_GRAFICA {
     
     // Método para guardar el detalle de cada partida en un archivo txt
     public static void guardarPartida(String detalle) {
-        StringBuilder sb = new StringBuilder();
-        sb.append(detalle).append("\n"); // cada detalle en una línea nueva
+        String nombreArchivo = "historial_partidas.txt";
+        List<String> partidas = new ArrayList<>();
 
-        try (FileWriter writer = new FileWriter("historial_partidas.txt", true)) {
-            writer.write(sb.toString());
-        } catch (IOException e) {
-            System.out.println("Error al guardar la partida: " + e.getMessage());
+        // Leer el archivo existente
+        File archivo = new File(nombreArchivo);
+        if (archivo.exists()) {
+            try (BufferedReader br = new BufferedReader(new FileReader(archivo))) {
+                String linea;
+                while ((linea = br.readLine()) != null) partidas.add(linea);
+            } catch (IOException e) { System.out.println("Error: " + e.getMessage()); }
         }
+
+        partidas.add(detalle);
+
+        // Mantener solo las últimas 5
+        if (partidas.size() > 5) partidas = partidas.subList(partidas.size() - 5, partidas.size());
+
+        // Reescribir archivo
+        try (FileWriter writer = new FileWriter(nombreArchivo)) {
+            for (String p : partidas) writer.write(p + "\n");
+        } catch (IOException e) { System.out.println("Error: " + e.getMessage()); }
     }
     
     // Método para mostrar los últimos 5 registros del historial
