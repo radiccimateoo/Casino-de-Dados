@@ -31,6 +31,9 @@ public class Casino {
             case 3 -> {
                 return new JugadorVIP(nombre, dineroInicial);
             }
+            case 4 -> {
+                return new JugadorCasino(nombre, dineroInicial); //Consigna 3
+            }
             default -> {
                 System.out.println("Tipo inválido, se asignará como Novato.");
                 return new JugadorNovato(nombre, dineroInicial);

@@ -7,6 +7,8 @@ package ie_interfaz_grafica;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Random; 
+import java.util.stream.Collectors;
 /**
  *
  * @author usuario
@@ -24,7 +26,21 @@ public class JuegoDados {
     public List<Jugador> jugarRonda() {
         int pozo = 0;
         HashMap<Jugador, Integer> resultados = new HashMap<>();
+        
+        //consigna 3: HobilidadConfusión - elección del jugador confundido
+        Jugador jugadorConfundido = null;
 
+        // Obtener la instancia del JugadorCasino asumiendo que es el primer jugador
+        JugadorCasino casino = (JugadorCasino) jugadores.get(0);
+
+        // Ejecutar la habilidad de confundir del casino
+        jugadorConfundido = casino.seleccionarJugadorAConfundir(jugadores);
+        if (jugadorConfundido != null) {
+            System.out.println("¡El Casino confunde a " + jugadorConfundido.getNombreConTipo() + "!");
+        }
+
+        //Fin elección
+    
         System.out.println("\nApuestas y lanzamientos:");
         for (Jugador jugador : jugadores) {
             int apuesta = jugador.calcularApuesta();
@@ -32,26 +48,45 @@ public class JuegoDados {
             jugador.perder(apuesta);
             pozo += apuesta;
 
-            int tiro1 = dado.tirar();
-            int tiro2 = dado.tirar();
-            int suma = tiro1 + tiro2;
+           int tiro1, tiro2, suma;
 
-            System.out.println(jugador.getNombreConTipo() + " apostó $" + apuesta + " y sacó " + tiro1 + " + " + tiro2 + " = " + suma);
+           // consigna 3: Se incorpora el tiro de dados cargados del jugadorCasino
+            // Lógica de tirada de dados
+              if (jugador instanceof JugadorCasino) {
+                  // El casino usa su método de dados cargados
+                  tiro1 = casino.tirarDadoCargado();
+                  tiro2 = casino.tirarDadoCargado();
+              } else {
+                  // Jugadores normales tiran dados comunes
+                  tiro1 = dado.tirar();
+                  tiro2 = dado.tirar();
+              }
 
-            if (jugador instanceof JugadorVIP) {
-                JugadorVIP vip = (JugadorVIP) jugador;
-                if (vip.puedeRepetir() && suma < 8) {
-                    System.out.println("→ " + vip.getNombreConTipo() + " decide usar su re-roll...");
-                    tiro1 = dado.tirar();
-                    tiro2 = dado.tirar();
-                    suma = tiro1 + tiro2;
-                    System.out.println("Nuevo tiro: " + tiro1 + " + " + tiro2 + " = " + suma);
-                    vip.usarRepeticion();
-                }
-            }
+              // Aplica la penalización si el jugador actual es el confundido
+              if (jugador.equals(jugadorConfundido)) {
+                  tiro1 = Math.max(1, tiro1 - 1);
+                  tiro2 = Math.max(1, tiro2 - 1);
+                  System.out.println("El efecto de la confusión le reduce el puntaje a " + jugador.getNombreConTipo() + ". Nuevo tiro: " + tiro1 + " + " + tiro2 + ".");
+              }
 
-            resultados.put(jugador, suma);
-        }
+              suma = tiro1 + tiro2;
+              System.out.println(jugador.getNombreConTipo() + " apostó $" + apuesta + " y sacó " + tiro1 + " + " + tiro2 + " = " + suma);
+
+              // Lógica del VIP si corresponde
+              if (jugador instanceof JugadorVIP vip) {
+                   if (vip.puedeRepetir() && suma < 8) {
+                      System.out.println("→ " + vip.getNombreConTipo() + " decide usar su re-roll...");
+                      tiro1 = dado.tirar();
+                      tiro2 = dado.tirar();
+                      // OJO: El re-roll del VIP no se penaliza en esta estructura
+                      suma = tiro1 + tiro2; 
+                      System.out.println("Nuevo tiro: " + tiro1 + " + " + tiro2 + " = " + suma);
+                      vip.usarRepeticion();
+                  }
+              }
+
+              resultados.put(jugador, suma);
+          }
 
         // Determinar puntaje más alto
         int maxPuntaje = resultados.values().stream().max(Integer::compare).orElse(0);
