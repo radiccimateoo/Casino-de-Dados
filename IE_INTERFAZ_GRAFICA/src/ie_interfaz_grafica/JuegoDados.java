@@ -7,6 +7,8 @@ package ie_interfaz_grafica;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Random; 
+import java.util.stream.Collectors;
 /**
  *
  * @author usuario
@@ -24,6 +26,8 @@ public class JuegoDados {
     public List<Jugador> jugarRonda() {
         int pozo = 0;
         HashMap<Jugador, Integer> resultados = new HashMap<>();
+        
+        
 
         System.out.println("\nApuestas y lanzamientos:");
         for (Jugador jugador : jugadores) {
