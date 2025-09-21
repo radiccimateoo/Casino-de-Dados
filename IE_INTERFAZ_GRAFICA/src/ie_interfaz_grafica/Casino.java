@@ -19,21 +19,21 @@ public class Casino {
         jugadores = new ArrayList<>();
     }
 
-    public Jugador crearJugador(String nombre, int tipo) {
+    public Jugador crearJugador(String nombre, String apodo, int tipo) {
         int dineroInicial = 500; // Todos empiezan con $500
         switch (tipo) {
             case 1 -> {
-                return new JugadorNovato(nombre, dineroInicial);
+                return new JugadorNovato(nombre, apodo, dineroInicial);
             }
             case 2 -> {
-                return new JugadorExperto(nombre, dineroInicial);
+                return new JugadorExperto(nombre, apodo, dineroInicial);
             }
             case 3 -> {
-                return new JugadorVIP(nombre, dineroInicial);
+                return new JugadorVIP(nombre, apodo, dineroInicial);
             }
             default -> {
                 System.out.println("Tipo inválido, se asignará como Novato.");
-                return new JugadorNovato(nombre, dineroInicial);
+                return new JugadorNovato(nombre, apodo, dineroInicial);
             }
         }
     }
