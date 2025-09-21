@@ -49,7 +49,7 @@ public class JugadorCasino extends Jugador{
         int dado1 = tirarDadoCargado();
         int dado2 = tirarDadoCargado();
         System.out.println("Casino tiró dados: " + dado1 + " + " + dado2 + " = " + (dado1 + dado2));
-        return dado1 + dado2;
+        return (dado1 + dado2);
     }
 }
 

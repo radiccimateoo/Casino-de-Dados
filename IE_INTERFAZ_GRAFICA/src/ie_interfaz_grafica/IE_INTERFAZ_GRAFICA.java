@@ -22,8 +22,15 @@ public class IE_INTERFAZ_GRAFICA {
         Casino casino = new Casino();
 
         System.out.println(" ¡Bienvenidos al Casino de Dados! ");
+        
+        // Consigna 3: Crear el JugadorCasino obligatorio
+        String nombreCasino = "El Casino";
+        Jugador jugadorCasino = casino.crearJugador(nombreCasino, 4); // El tipo 4 representa al JugadorCasino
+        casino.agregarJugador(jugadorCasino);
+        System.out.println("El jugador '" + nombreCasino + "' (Casino) se ha unido al juego.");
 
         // Crear jugadores
+        //VALIDAR SI QUEREMOS BAJAR A 3 JUGADORES ADEMPAS DEL CASINO
         int n;
         while (true) {
             System.out.print("¿Cuántos jugadores participarán? (2-4): ");
