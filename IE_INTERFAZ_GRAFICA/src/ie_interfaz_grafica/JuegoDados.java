@@ -32,26 +32,44 @@ public class JuegoDados {
             jugador.perder(apuesta);
             pozo += apuesta;
 
-            int tiro1 = dado.tirar();
-            int tiro2 = dado.tirar();
-            int suma = tiro1 + tiro2;
+           int tiro1, tiro2, suma;
 
-            System.out.println(jugador.getNombreConTipo() + " apostó $" + apuesta + " y sacó " + tiro1 + " + " + tiro2 + " = " + suma);
+           // consigna 3: Se incorpora el tiro de dados cargados del jugadorCasino
+            if (jugador instanceof JugadorCasino casino) {
+                //  JugadorCasino usa sus dados cargados
+                suma = casino.lanzarDadosCargados();               
 
-            if (jugador instanceof JugadorVIP) {
-                JugadorVIP vip = (JugadorVIP) jugador;
-                if (vip.puedeRepetir() && suma < 8) {
-                    System.out.println("→ " + vip.getNombreConTipo() + " decide usar su re-roll...");
-                    tiro1 = dado.tirar();
-                    tiro2 = dado.tirar();
-                    suma = tiro1 + tiro2;
-                    System.out.println("Nuevo tiro: " + tiro1 + " + " + tiro2 + " = " + suma);
-                    vip.usarRepeticion();
-                }
+            } 
+            // Lógica para JugadorVIP (la segunda excepción)
+        else if (jugador instanceof JugadorVIP vip) {
+            tiro1 = dado.tirar();
+            tiro2 = dado.tirar();
+            suma = tiro1 + tiro2;
+            
+            System.out.println(jugador.getNombreConTipo() + " apostó $" + apuesta +
+                               " y sacó " + tiro1 + " + " + tiro2 + " = " + suma);
+            
+            if (vip.puedeRepetir() && suma < 8) {
+                System.out.println("→ " + vip.getNombreConTipo() + " decide usar su re-roll...");
+                tiro1 = dado.tirar();
+                tiro2 = dado.tirar();
+                suma = tiro1 + tiro2;
+                System.out.println("Nuevo tiro: " + tiro1 + " + " + tiro2 + " = " + suma);
+                vip.usarRepeticion();
             }
-
-            resultados.put(jugador, suma);
         }
+        // Lógica para todos los demás jugadores genéricos (Novato, Experto)
+        else {
+            tiro1 = dado.tirar();
+            tiro2 = dado.tirar();
+            suma = tiro1 + tiro2;
+            
+            System.out.println(jugador.getNombreConTipo() + " apostó $" + apuesta +
+                               " y sacó " + tiro1 + " + " + tiro2 + " = " + suma);
+        }
+
+        resultados.put(jugador, suma);
+    }
 
         // Determinar puntaje más alto
         int maxPuntaje = resultados.values().stream().max(Integer::compare).orElse(0);

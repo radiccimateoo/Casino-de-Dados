@@ -26,7 +26,7 @@ public class JugadorCasino extends Jugador{
 // Implementación del método abstracto para obtener el tipo de jugador
     @Override
     public String obtenerTipoJugador() {
-        return "Casino";
+        return "El Casino";
     }
 
     // Implementación del método abstracto para calcular la apuesta
