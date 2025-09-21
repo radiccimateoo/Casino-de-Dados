@@ -1,24 +1,45 @@
 package ie_interfaz_grafica;
 
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-/**
- *
- * @author usuario
- */
+
 public class Casino {
     
     private ArrayList<Jugador> jugadores;
-
+    // CONSIGNA 4: Se añade atributos globales para el reporte
+    private int mayorApuesta = 0;
+    private String nombreJugadorMayorApuesta = "Sin registro";
+    private int mejorPuntajeDados = 0;
+    private String nombreJugadorMejorPuntaje = "Sin registro";
+    //--------------------------------------------------------
     public Casino() {
         jugadores = new ArrayList<>();
     }
+    
+    // CONSIGNA 4: Se añade getters para el reporte
+    public ArrayList<Jugador> getJugadores() { return jugadores; }
+    public int getMayorApuesta() { return mayorApuesta; }
+    public String getNombreJugadorMayorApuesta() { return nombreJugadorMayorApuesta; }
+    public int getMejorPuntajeDados() { return mejorPuntajeDados; }
+    public String getNombreJugadorMejorPuntaje() { return nombreJugadorMejorPuntaje; }
+    // -------------------------------------------------------------------------------
+    // CONSIGNA 4: Metodo para actualizar estadisticas
+    public void actualizarEstadisticas(int apuesta, int puntajeDados, Jugador jugador) {
+        if (apuesta > this.mayorApuesta) {
+            this.mayorApuesta = apuesta;
+            this.nombreJugadorMayorApuesta = jugador.getNombreConTipo();
+        }
+        if (puntajeDados > this.mejorPuntajeDados) {
+            this.mejorPuntajeDados = puntajeDados;
+            this.nombreJugadorMejorPuntaje = jugador.getNombreConTipo();
+        }
+    }    
+    // -------------------------------------------------------------------------------
 
+
+    
     public Jugador crearJugador(String nombre, int tipo) {
         int dineroInicial = 500; // Todos empiezan con $500
         switch (tipo) {
@@ -60,7 +81,8 @@ public class Casino {
             }
 
             // 3 rondas fijas
-            JuegoDados juego = new JuegoDados(jugadores);
+            JuegoDados juego = new JuegoDados(jugadores, this); 
+            // CONSIGNA 4: a la clase JuegoDados, se le pasa por parametro el metodo del cacino
             for (int r = 1; r <= 3; r++) {
                 System.out.println("\n---- Ronda " + r);
                 List<Jugador> ganadoresRonda = juego.jugarRonda();
@@ -78,6 +100,8 @@ public class Casino {
                     maxRondas = rondasGanadas.get(j);
                 }
             }
+            // CONSIGNA 4: Agrega el contador de victorias para el registro
+            ganadorPartida.sumarVictoria();
 
             // Construir detalle
             StringBuilder detalle = new StringBuilder();

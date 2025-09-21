@@ -1,24 +1,23 @@
 package ie_interfaz_grafica;
 
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-/**
- *
- * @author usuario
- */
+
 public class JuegoDados {
     
     private ArrayList<Jugador> jugadores;
     private Dado dado;
-
-    public JuegoDados(ArrayList<Jugador> jugadores) {
+    private Casino casino;
+    
+    // CONSIGNA 4: Se agrega el parametro del objeto casino, para utilizar su metodo
+    //actualizarEstgadistica
+    public JuegoDados(ArrayList<Jugador> jugadores, Casino casino) {
         this.jugadores = jugadores;
         this.dado = new Dado();
+        this.casino = casino;
+        
     }
 
     public List<Jugador> jugarRonda() {
@@ -36,6 +35,9 @@ public class JuegoDados {
             int tiro2 = dado.tirar();
             int suma = tiro1 + tiro2;
 
+            // CONSIGNA 4: Se llama al metodo casino para verificar y actualizar las estadisticas
+            casino.actualizarEstadisticas(apuesta, suma, jugador);
+            
             System.out.println(jugador.getNombreConTipo() + " apostó $" + apuesta + " y sacó " + tiro1 + " + " + tiro2 + " = " + suma);
 
             if (jugador instanceof JugadorVIP) {

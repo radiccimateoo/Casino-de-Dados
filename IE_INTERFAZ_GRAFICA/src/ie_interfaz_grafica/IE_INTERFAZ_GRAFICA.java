@@ -1,7 +1,3 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Main.java to edit this template
- */
 package ie_interfaz_grafica;
 import java.util.*;
 import java.io.*;
@@ -65,17 +61,21 @@ public class IE_INTERFAZ_GRAFICA {
         
         System.out.println("\n*************************************");
         System.out.println("\nComienza el juego!");
-        
+        int cantPartidas = 8;
         // Guardar la lista de detalles de partidas en la variable
-        List<String> detalles = casino.jugar(8);
+        List<String> detalles = casino.jugar(cantPartidas);
         
         // Recorrer cada detalle y guardarlo en archivo historial_partidas.txt
         for (String detalle : detalles) {
             guardarPartida(detalle);
         }
         
-        //luego de que se jueguen todas las partidas vamos a mostrar el historial de las ultimas 5 partidas
-        mostrarHistorial();
+        // CONSIGNA 4: 
+        // Se elimina el metodo mostrarHistorial
+        // Se pasa el objeto casino el cual tiene los datos para generar el reporte
+        System.out.println("\n\nJuego terminado. Generando reporte final...");
+        Reporte.generarReporteFinal(casino, cantPartidas);
+
 
         scanner.close();
     }
