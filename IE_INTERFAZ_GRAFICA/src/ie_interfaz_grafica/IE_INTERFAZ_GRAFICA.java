@@ -43,11 +43,27 @@ public class IE_INTERFAZ_GRAFICA {
             System.out.print("Nombre del jugador " + i + ": ");
             String nombre = scanner.nextLine();
 
+            //Declaro
+            String apodo;
+            
+            do{
+                //Consigna 2 - Ingresar un apodo
+                System.out.print("Ingresa un apodo (solo letras y espacios) " + i + ": ");
+                apodo = scanner.nextLine();
+                
+                //Validación
+                if(!validarApodo(apodo)){
+                System.out.print("No cumplis con la condicion. El apodo debe tener entre 3 y 10 caracteres.\n");
+                }
+                
+            } while(!validarApodo(apodo));
+            
+            
             System.out.print("Tipo (1=Novato, 2=Experto, 3=VIP): ");
             int tipo = scanner.nextInt();
             scanner.nextLine();
 
-            Jugador jugador = casino.crearJugador(nombre, tipo);
+            Jugador jugador = casino.crearJugador(nombre, apodo, tipo);
             casino.agregarJugador(jugador);
         }
         
@@ -78,6 +94,16 @@ public class IE_INTERFAZ_GRAFICA {
         mostrarHistorial();
 
         scanner.close();
+    }
+    
+    //Metodo para validar letras y espacios 
+    public static boolean validarApodo(String apodo){
+        //Validación: Apodo - entre 3 y 10 caracteres
+        if(apodo.length() < 3 || apodo.length() > 10){
+            return false;
+        }
+        
+        return apodo.matches("[a-zA-Z ]+");
     }
     
     // Método para guardar el detalle de cada partida en un archivo txt

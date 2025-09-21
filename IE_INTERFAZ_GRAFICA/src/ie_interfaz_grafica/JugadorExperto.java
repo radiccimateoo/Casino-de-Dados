@@ -11,8 +11,8 @@ package ie_interfaz_grafica;
 public class JugadorExperto extends Jugador {
 
     // Constructor: llama al constructor de la clase padre (Jugador)
-    public JugadorExperto(String nombre, int dineroInicial) {
-        super(nombre, dineroInicial);
+    public JugadorExperto(String nombre, String apodo, int dineroInicial) {
+        super(nombre, apodo, dineroInicial);
     }
 
     // Apuesta el 20% del dinero actual (mínimo 1)
