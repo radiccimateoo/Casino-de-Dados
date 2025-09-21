@@ -24,5 +24,17 @@ public class JugadorCasino extends Jugador{
         public JugadorCasino(String nombre, int dineroInicial) {
         super("Casino", dineroInicial); // Nombre fijo "Casino"
     }
-        
+   
+// Implementación del método abstracto para obtener el tipo de jugador
+    @Override
+    public String obtenerTipoJugador() {
+        return "Casino";
+    }
+
+    // Implementación del método abstracto para calcular la apuesta
+        @Override   
+        public int calcularApuesta() {
+        int apuesta = (int)(getDinero() * 0.4);
+        return Math.max(apuesta, 1);
+    }
 }
