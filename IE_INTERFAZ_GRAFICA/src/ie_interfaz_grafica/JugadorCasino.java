@@ -18,11 +18,13 @@ import java.util.stream.Collectors;
 // CONSIGNA 3: JUGADOR CASINO
 public class JugadorCasino extends Jugador{
       
+    private double probabilidadTrampa;  //habilidad casino
     private final Random random;
      //Constructor:
-        public JugadorCasino(String nombre, int dineroInicial) {
+        public JugadorCasino(String nombre, int dineroInicial, double probabilidadTrampa) {
         super("Casino", dineroInicial); // Nombre fijo "Casino"
         this.random= new Random();
+        this.probabilidadTrampa=0.40;
     }
    
 // Implementación del método abstracto para obtener el tipo de jugador
