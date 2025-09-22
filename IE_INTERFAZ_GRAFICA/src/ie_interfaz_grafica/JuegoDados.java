@@ -89,7 +89,7 @@ public class JuegoDados {
             }
         }
         
-        // CONSIGNA 4: ¡LUGAR CORRECTO PARA ACTUALIZAR ESTADÍSTICAS!
+        // CONSIGNA 4:ACTUALIZAR ESTADÍSTICAS
         // Se hace para CADA jugador, dentro del bucle.
         casino.actualizarEstadisticas(apuesta, suma, jugador);
 
@@ -130,3 +130,4 @@ public class JuegoDados {
 
     
 }
+
