@@ -10,8 +10,8 @@ package ie_interfaz_grafica;
  */
 public class JugadorNovato extends Jugador {
     // Constructor: llama al constructor de la clase padre (Jugador)
-    public JugadorNovato(String nombre, int dineroInicial) {
-        super(nombre, dineroInicial); // super() es el constructor de Jugador
+    public JugadorNovato(String nombre, String apodo, int dineroInicial) {
+        super(nombre, apodo, dineroInicial); // super() es el constructor de Jugador
     }
 
     // Implementa el método abstracto: siempre apuesta $50

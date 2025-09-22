@@ -13,8 +13,8 @@ public class JugadorVIP extends Jugador {
     // Atributo para controlar si ya usó el re-roll (repetir tirada) en la ronda actual
     private boolean puedeRepetirTirada;
 
-    public JugadorVIP(String nombre, int dineroInicial) {
-        super(nombre, dineroInicial);
+    public JugadorVIP(String nombre, String apodo, int dineroInicial) {
+        super(nombre, apodo, dineroInicial);
         this.puedeRepetirTirada = true; // Al iniciar cada ronda, puede repetir la tirada
     }
 

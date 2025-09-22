@@ -12,6 +12,9 @@ public class Casino {
     private String nombreJugadorMayorApuesta = "Sin registro";
     private int mejorPuntajeDados = 0;
     private String nombreJugadorMejorPuntaje = "Sin registro";
+    private int conteoDadosCargados = 0;
+    private HashMap<String, Integer> victimasDeTrampas = new HashMap<>();
+    
     //--------------------------------------------------------
     public Casino() {
         jugadores = new ArrayList<>();
@@ -23,6 +26,8 @@ public class Casino {
     public String getNombreJugadorMayorApuesta() { return nombreJugadorMayorApuesta; }
     public int getMejorPuntajeDados() { return mejorPuntajeDados; }
     public String getNombreJugadorMejorPuntaje() { return nombreJugadorMejorPuntaje; }
+    public HashMap<String, Integer> getVictimasDeTrampas() { return victimasDeTrampas; }
+
     // -------------------------------------------------------------------------------
     // CONSIGNA 4: Metodo para actualizar estadisticas
     public void actualizarEstadisticas(int apuesta, int puntajeDados, Jugador jugador) {
@@ -34,32 +39,47 @@ public class Casino {
             this.mejorPuntajeDados = puntajeDados;
             this.nombreJugadorMejorPuntaje = jugador.getNombreConTipo();
         }
-    }    
-    // -------------------------------------------------------------------------------
-
-
-    
-    public Jugador crearJugador(String nombre, int tipo) {
+    }   
+    // CONSIGNA 4: Metodo para registrar trampeados
+    public void registrarVictima(Jugador victima) {
+    String nombreVictima = victima.getNombre();
+    // getOrDefault busca el contador actual o devuelve 0 si es la primera vez
+    int conteoActual = victimasDeTrampas.getOrDefault(nombreVictima, 0);
+    victimasDeTrampas.put(nombreVictima, conteoActual + 1);
+}
+    // -------------------------------------------------------------------------------  
+    public Jugador crearJugador(String nombre, String apodo, int tipo) {
         int dineroInicial = 500; // Todos empiezan con $500
         switch (tipo) {
             case 1 -> {
-                return new JugadorNovato(nombre, dineroInicial);
+                return new JugadorNovato(nombre, apodo, dineroInicial);
             }
             case 2 -> {
-                return new JugadorExperto(nombre, dineroInicial);
+                return new JugadorExperto(nombre, apodo, dineroInicial);
             }
             case 3 -> {
-                return new JugadorVIP(nombre, dineroInicial);
+                return new JugadorVIP(nombre, apodo, dineroInicial);
+            }
+            case 4 -> {
+                return new JugadorCasino(nombre, dineroInicial); //Consigna 3
             }
             default -> {
                 System.out.println("Tipo inválido, se asignará como Novato.");
-                return new JugadorNovato(nombre, dineroInicial);
+                return new JugadorNovato(nombre, apodo, dineroInicial);
             }
         }
     }
 
     public void agregarJugador(Jugador jugador) {
         jugadores.add(jugador);
+    }
+    
+    public void registrarUsoDadosCargados() {
+    conteoDadosCargados++;
+    }
+    
+    public int getConteoDadosCargados() {
+    return conteoDadosCargados;
     }
     
     /* por x cantidad de partidas siempre se juegan 3 rondas

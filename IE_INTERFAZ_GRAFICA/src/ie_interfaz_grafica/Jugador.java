@@ -10,17 +10,21 @@ package ie_interfaz_grafica;
  */
 public abstract class Jugador {
     private String nombre;
+    private String apodo;
     private int dinero;
     private int partidasGanadas;
 
     // Constructor
-    public Jugador(String nombre, int dineroInicial) {
+    public Jugador(String nombre, String apodo, int dineroInicial) {
         this.nombre = nombre;
+        this.apodo = apodo;
         this.dinero = Math.max(0, dineroInicial); 
         this.partidasGanadas = 0;
     }
 
     public String getNombre() { return nombre; }
+      
+    public String getApodo() { return apodo; }
 
     public int getDinero() { return dinero; }
 

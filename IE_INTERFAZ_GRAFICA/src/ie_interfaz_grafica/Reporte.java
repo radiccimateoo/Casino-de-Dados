@@ -8,6 +8,7 @@ import java.io.IOException;     //  para capturar errores
 import java.util.ArrayList;     //  para definir el comportamiento de la lista
 import java.util.Comparator;    //  para comparar elementos y definir el orden
 import java.util.List;  
+import java.util.HashMap; 
 
 public class Reporte {
 
@@ -62,14 +63,22 @@ public class Reporte {
         sb.append("Mejor puntaje de dados: ").append(casino.getMejorPuntajeDados())
           .append(" (").append(casino.getNombreJugadorMejorPuntaje()).append(")\n");
         
-        
-        // ------------------------------------------
-        
-        // FALTA LA CONSIGNA DE LAS TRAMPAS.
-        
-        // -----------------------------------
-        
-        
+        // codigo registrar trampa .    
+        HashMap<String, Integer> victimas = casino.getVictimasDeTrampas();
+        if (victimas.isEmpty()) {
+            sb.append("Jugadores afectados por trampas: Ninguno\n");
+        } else {
+            sb.append("Jugadores afectados por trampas: ");
+            List<String> listaVictimas = new ArrayList<>();
+            for (String nombre : victimas.keySet()) {
+                listaVictimas.add(nombre + "(" + victimas.get(nombre) + ")");
+            }
+            sb.append(String.join(", ", listaVictimas)); // Une todo con comas
+            sb.append("\n");
+        }   
+        sb.append("La trampa 'Dados Cargados' fue usada ")
+        .append(casino.getConteoDadosCargados())
+        .append(" veces por el casino.\n");
         sb.append("\n");
     }
 
