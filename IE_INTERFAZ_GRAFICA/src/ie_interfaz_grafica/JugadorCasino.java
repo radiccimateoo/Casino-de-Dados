@@ -18,13 +18,13 @@ import java.util.stream.Collectors;
 // CONSIGNA 3: JUGADOR CASINO
 public class JugadorCasino extends Jugador{
       
-    private double probabilidadTrampa;  //habilidad casino
-    private final Random random;
+       private final Random random;
+    
      //Constructor:
-        public JugadorCasino(String nombre, int dineroInicial, double probabilidadTrampa) {
+        public JugadorCasino(String nombre, int dineroInicial) {
         super("Casino", dineroInicial); // Nombre fijo "Casino"
         this.random= new Random();
-        this.probabilidadTrampa=0.40;
+      
     }
    
 // Implementación del método abstracto para obtener el tipo de jugador
@@ -42,7 +42,7 @@ public class JugadorCasino extends Jugador{
         //Habilidad especial: dados cargados (40% probabilidad de sacar 6 en cada dado)
     public int tirarDadoCargado() {
         if (random.nextDouble() < 0.4) {  
-            return 6; // 40% de probabilidad
+            return 6;
         } else {
             return random.nextInt(6) + 1; // valor normal 1–6
         }
@@ -58,7 +58,7 @@ public class JugadorCasino extends Jugador{
     
      // Nuevo método para seleccionar un jugador a confundir
     public Jugador seleccionarJugadorAConfundir(List<Jugador> jugadores) {
-        if (new Random().nextDouble() < 0.3) { // 30% de probabilidad de activar
+        if (new Random().nextDouble() < 0.3) { // 30% probabilidad de activar
             // Filtra a los jugadores, excluyendo al propio Casino
             List<Jugador> jugadoresSinCasino = jugadores.stream()
                 .filter(j -> !(j instanceof JugadorCasino))
