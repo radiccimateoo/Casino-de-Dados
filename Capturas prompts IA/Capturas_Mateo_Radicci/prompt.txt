@@ -1,0 +1,115 @@
+1. Historial de partidas
+○ Se implementa en la clase main.
+○ Se deben guardar las últimas 5 partidas jugadas
+○ Cada entrada se arma con StringBuilder en el formato:
+■ PARTIDA #1 - Jugadores: Juan,Ana,Carlos | Ganador: Juan |
+Rondas: x
+○ Métodos sugeridos en main: guardarPartida(String detalle) y
+mostrarHistorial()
+
+
+esta es la consigna numero 1 del trabajo, vamos a ir desglosando parte la consigna para ir haciendo mejoras parciales y que no se genere problemas al hacer todo junto. Como primera parte dice que tenemos que implementar el trabajo en la clase main asi que te mando el codigo correspondiente a la clase main para que estes contextualizado:
+
+/*
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Main.java to edit this template
+ */
+package ie_interfaz_grafica;
+import java.util.*;
+
+/**
+ *
+ * @author usuario
+ */
+public class IE_INTERFAZ_GRAFICA {
+
+    /**
+     * @param args the command line arguments
+     */
+    public static void main(String[] args) {
+        // TODO code application logic here
+        
+        Scanner scanner = new Scanner(System.in);
+        Casino casino = new Casino();
+
+        System.out.println(" ¡Bienvenidos al Casino de Dados! ");
+
+        // Crear jugadores
+        int n;
+        while (true) {
+            System.out.print("¿Cuántos jugadores participarán? (2-4): ");
+            if (scanner.hasNextInt()) {
+                n = scanner.nextInt();
+                scanner.nextLine(); // limpiar el \n
+                if (n >= 2 && n <= 4) break;
+                System.out.println("Número inválido. Debe ser 2, 3 o 4.");
+            } else {
+                System.out.println("Entrada inválida. Ingrese un número.");
+                scanner.nextLine(); // descartar lo que se haya escrito
+            }
+        }
+
+
+        for (int i = 1; i <= n; i++) {
+            System.out.print("Nombre del jugador " + i + ": ");
+            String nombre = scanner.nextLine();
+
+            System.out.print("Tipo (1=Novato, 2=Experto, 3=VIP): ");
+            int tipo = scanner.nextInt();
+            scanner.nextLine();
+
+            Jugador jugador = casino.crearJugador(nombre, tipo);
+            casino.agregarJugador(jugador);
+        }
+        
+        System.out.print("\n Ingrese la cantidad de partidas que quiere jugar: ");
+        int cantPartidas = scanner.nextInt();
+        scanner.nextLine();
+        
+        System.out.println("\n*************************************");
+        System.out.println("\nComienza el juego!");
+        casino.jugar(cantPartidas);
+
+        scanner.close();
+    }
+    
+}
+
+
+como segunda parte dice que se deben guardar las ultimas 5 partidas jugadas, que pasa esto cada vez que se ejecute el programa actualemente se pierden los datos, seria valido de manera basica escribir en un archivo txt dentro del metodo guardarPartida(String detalle) ademas de mostrarlo por consola, segun la consigna en esta parte: PARTIDA #1 - Jugadores: Juan,Ana,Carlos | Ganador: Juan |
+Rondas: x
+
+
+se entiende que por partida hay x cantidad de rondas, por lo tanto deberiamos consultar o poner un numero fijo (mejor hacemos esa opcion para hacer mas automatico el trabajo) de partidas y que todas las partidas sean a 3 rondas entonces despues de esa manera en base a las 3 rondas mostramos el detalle: PARTIDA #1 - Jugadores: Juan,Ana,Carlos | Ganador: Juan |
+Rondas: x 
+
+
+actualemte el codigoq ue tepase ya tiene la cantidad de partidas qeu esta en la clase casino asi qeu debemos tambien modifcar eso, vamos a tene que consutlar la cantidad de partidas que quiere jugar (pongamos como numero fijo 8 partidas para que hayan varias) pero que la cantidad de rondas siempre sea fijo en un numero 3
+
+for (int i = 1; i <= cantPartidas; i++) {
+            System.out.println("\n=== Partida " + i + " ===");
+            JuegoDados juego = new JuegoDados(jugadores);
+            juego.jugarRonda();
+
+            // Mostrar estado de los jugadores
+            System.out.println("\nEstado después de la ronda " + i + ":");
+            for (Jugador j : jugadores) {
+                System.out.println(j.getNombreConTipo() + " - Dinero: $" + j.getDinero());
+            }
+
+            // Verificar si alguien se quedó sin dinero
+            boolean alguienSinDinero = false;
+            for (Jugador j : jugadores) {
+                if (j.getDinero() <= 0) {
+                    alguienSinDinero = true;
+                    break;
+                }
+            }
+            if (alguienSinDinero) {
+                System.out.println("\nUn jugador se quedó sin dinero. ¡Fin del juego!");
+                break;
+            }
+        }
+
+
+aca modifica y establece valores fijos para las rondas y yo despues por parametro le pso la cantidad de partidas
