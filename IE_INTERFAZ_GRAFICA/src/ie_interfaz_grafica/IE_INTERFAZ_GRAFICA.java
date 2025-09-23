@@ -98,6 +98,7 @@ public class IE_INTERFAZ_GRAFICA {
         // Se elimina el metodo mostrarHistorial
         // Se pasa el objeto casino el cual tiene los datos para generar el reporte
         System.out.println("\n\nJuego terminado. Generando reporte final...");
+        cantPartidas = casino.getCantPartidas();
         Reporte.generarReporteFinal(casino, cantPartidas);
 
 

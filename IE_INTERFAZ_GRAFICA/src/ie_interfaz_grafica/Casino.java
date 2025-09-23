@@ -14,6 +14,7 @@ public class Casino {
     private String nombreJugadorMejorPuntaje = "Sin registro";
     private int conteoDadosCargados = 0;
     private HashMap<String, Integer> victimasDeTrampas = new HashMap<>();
+    public int cantPartidasTotal = 0;
     
     //--------------------------------------------------------
     public Casino() {
@@ -103,10 +104,18 @@ public class Casino {
             JuegoDados juego = new JuegoDados(jugadores, this); 
             // CONSIGNA 4: a la clase JuegoDados, se le pasa por parametro el metodo del cacino
             for (int r = 1; r <= 3; r++) {
-                System.out.println("\n---- Ronda " + r);
-                List<Jugador> ganadoresRonda = juego.jugarRonda();
-                for (Jugador g : ganadoresRonda) {
-                    rondasGanadas.put(g, rondasGanadas.get(g) + 1);
+                if (!juego.isJuegoTerminado()) {
+                    System.out.println("\n---- Ronda " + r);
+                    List<Jugador> ganadoresRonda = juego.jugarRonda();
+                    
+                    if (ganadoresRonda == null) {
+                        System.out.println("️ Juego finalizado anticipadamente en la ronda " + r + " de la partida " + i);
+                        cantPartidasTotal = i;
+                        return detalles; // corta el método y devuelve lo jugado hasta acá
+                    }
+                    for (Jugador g : ganadoresRonda) {
+                        rondasGanadas.put(g, rondasGanadas.get(g) + 1);
+                    }
                 }
             }
 
@@ -121,6 +130,8 @@ public class Casino {
             }
             // CONSIGNA 4: Agrega el contador de victorias para el registro
             ganadorPartida.sumarVictoria();
+            
+            
 
             // Construir detalle
             StringBuilder detalle = new StringBuilder();
@@ -133,10 +144,14 @@ public class Casino {
             detalle.append(" | Rondas ganadas: ").append(maxRondas).append(" de 3");
 
             detalles.add(detalle.toString());
+            
+            cantPartidasTotal++;
         }
 
         return detalles;
     }
+    
+    public int getCantPartidas() { return this.cantPartidasTotal; }
 
     
 }
